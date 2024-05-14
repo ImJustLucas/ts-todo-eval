@@ -2,6 +2,7 @@ import { ToDoItem } from "../types";
 
 export const TodoItem: React.FC<{ todo: ToDoItem }> = ({ todo }) => {
   //bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150
+
   return (
     <div
       id="task"
