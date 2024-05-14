@@ -3,10 +3,15 @@ import { TodoContext } from "../contexts/todo.context";
 import { TodoItem } from "./TodoItem";
 
 export const TodoList: React.FC = () => {
-  const { tasks } = useContext(TodoContext);
+  const { tasks, query } = useContext(TodoContext);
+  
+  const filteredTasks = tasks.filter((task) =>
+    task.description.toLowerCase().includes(query.get.toLowerCase())
+  );
+
   return (
     <div className="my-5">
-      {tasks.map((task) => (
+      {filteredTasks.map((task) => (
         <TodoItem key={task.id} todo={task} />
       ))}
     </div>

@@ -8,6 +8,10 @@ interface ITodoContext {
   addTask: <T extends ToDoItem>(todo: T) => void;
   removeTask: <T extends ToDoItem>(todo: T) => void;
   updateTask: <T extends ToDoItem>(id: number, todo: T) => void;
+  query: {
+    get: string;
+    set: (query: string) => void;
+  }
 }
 
 const TodoContext = React.createContext<ITodoContext>({} as ITodoContext);
@@ -48,6 +52,8 @@ const TodoProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
+  const [query, setQuery] = useState<string>('');
+
 
   const taskManager = new TaskManager(todos, setTodos);
 
@@ -58,6 +64,10 @@ const TodoProvider: React.FC<{
         addTask: taskManager.addTask,
         removeTask: taskManager.removeTask,
         updateTask: taskManager.updateTask,
+        query: {
+          get: query,
+          set: setQuery
+        }
       }}
     >
       {children}
