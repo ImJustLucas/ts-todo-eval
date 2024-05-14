@@ -4,7 +4,12 @@ import { TodoItem } from "./TodoItem";
 import {Header} from "./Header.tsx";
 
 export const TodoList: React.FC = () => {
-  const { tasks } = useContext(TodoContext);
+  const { tasks, query } = useContext(TodoContext);
+  
+  const filteredTasks = tasks.filter((task) =>
+    task.description.toLowerCase().includes(query.get.toLowerCase())
+  );
+
   return (
     <div className="max-w-lg p-8 bg-white m-auto rounded-xl shadow shadow-slate-300">
 

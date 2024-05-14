@@ -1,42 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToDoItem } from "../types";
 import fakeData from "./fakeData";
-
-// type filterType = "priority" | "state" | "date";
+import { Log } from "../decorators/log.decorator";
 
 interface ITodoContext {
   tasks: ToDoItem[];
   addTask: <T extends ToDoItem>(todo: T) => void;
-  removeTaks: <T extends ToDoItem>(todo: T) => void;
-  updateTaks: <T extends ToDoItem>(id: number, todo: T) => void;
+  removeTask: <T extends ToDoItem>(todo: T) => void;
+  updateTask: <T extends ToDoItem>(id: number, todo: T) => void;
+  query: {
+    get: string;
+    set: (query: string) => void;
+  }
 }
 
 const TodoContext = React.createContext<ITodoContext>({} as ITodoContext);
 
+class TaskManager {
+  todos: ToDoItem[];
+  setTodos: React.Dispatch<React.SetStateAction<ToDoItem[]>>;
+
+  constructor(
+    todos: ToDoItem[],
+    setTodos: React.Dispatch<React.SetStateAction<ToDoItem[]>>
+  ) {
+    this.todos = todos;
+    this.setTodos = setTodos;
+
+    // Binding methods to the instance
+    this.addTask = this.addTask.bind(this);
+    this.removeTask = this.removeTask.bind(this);
+    this.updateTask = this.updateTask.bind(this);
+  }
+
+  @Log
+  addTask<T extends ToDoItem>(todo: T): void {
+    this.setTodos([...this.todos, todo]);
+  }
+
+  @Log
+  removeTask<T extends ToDoItem>(todo: T) {
+    this.setTodos(this.todos.filter((t) => t.id !== todo.id));
+  }
+
+  updateTask = <T extends ToDoItem>(id: number, todo: T) => {
+    this.setTodos(this.todos.map((t) => (t.id === id ? todo : t)));
+  };
+}
+
 const TodoProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [todos, setTodos] = React.useState<ToDoItem[]>(fakeData);
+  const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
+  const [query, setQuery] = useState<string>('');
 
-  const addTask = <T extends ToDoItem>(todo: T) => {
-    setTodos([...todos, todo]);
-  };
 
-  const removeTaks = <T extends ToDoItem>(todo: T) => {
-    setTodos(todos.filter((t) => t.id !== todo.id));
-  };
-
-  const updateTaks = <T extends ToDoItem>(id: number, todo: T) => {
-    setTodos(todos.map((t) => (t.id === id ? todo : t)));
-  };
+  const taskManager = new TaskManager(todos, setTodos);
 
   return (
     <TodoContext.Provider
       value={{
-        tasks: todos,
-        addTask,
-        removeTaks,
-        updateTaks,
+        tasks: taskManager.todos,
+        addTask: taskManager.addTask,
+        removeTask: taskManager.removeTask,
+        updateTask: taskManager.updateTask,
+        query: {
+          get: query,
+          set: setQuery
+        }
       }}
     >
       {children}

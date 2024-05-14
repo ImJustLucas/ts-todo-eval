@@ -18,7 +18,21 @@ const fakeData: ToDoItem[] = [
     dueDate: new Date("2021-12-31"),
   },
   {
-    id: 3,
+    id: 7,
+    description: "Descriptionzer 2",
+    status: TaskStatus.inProgress,
+    priority: TaskPriority.Medium,
+    dueDate: new Date("2021-12-31"),
+  },
+  {
+    id: 8,
+    description: "Descriptionzer 2",
+    status: TaskStatus.inProgress,
+    priority: TaskPriority.Medium,
+    dueDate: new Date("2021-12-31"),
+  },
+  {
+  id: 3,
     description: "Description 3",
     status: TaskStatus.done,
     priority: TaskPriority.High,
