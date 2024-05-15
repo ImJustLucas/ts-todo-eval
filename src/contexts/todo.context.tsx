@@ -35,7 +35,7 @@ class TaskManager {
     this.todos = todos;
     this.setTodos = setTodos;
 
-    // Binding methods to the instance
+
     this.addTask = this.addTask.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.updateTask = this.updateTask.bind(this);
