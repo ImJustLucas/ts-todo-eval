@@ -11,7 +11,12 @@ interface ITodoContext {
   query: {
     get: string;
     set: (query: string) => void;
-  }
+  };
+  filter: {
+    get: string | undefined;
+    set: (filter: string | undefined) => void;
+    resetFilter: () => void;
+  };
 }
 
 const TodoContext = React.createContext<ITodoContext>({} as ITodoContext);
@@ -53,25 +58,34 @@ const TodoProvider: React.FC<{
 }> = ({ children }) => {
   const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
   const [query, setQuery] = useState<string>('');
-
+  const [filter, setFilter] = useState<string | undefined>(undefined);
 
   const taskManager = new TaskManager(todos, setTodos);
 
+  const resetFilter = () => {
+    setFilter(undefined);
+  };
+
   return (
-    <TodoContext.Provider
-      value={{
-        tasks: taskManager.todos,
-        addTask: taskManager.addTask,
-        removeTask: taskManager.removeTask,
-        updateTask: taskManager.updateTask,
-        query: {
-          get: query,
-          set: setQuery
-        }
-      }}
-    >
-      {children}
-    </TodoContext.Provider>
+      <TodoContext.Provider
+          value={{
+            tasks: taskManager.todos,
+            addTask: taskManager.addTask,
+            removeTask: taskManager.removeTask,
+            updateTask: taskManager.updateTask,
+            query: {
+              get: query,
+              set: setQuery
+            },
+            filter: {
+              get: filter,
+              set: setFilter,
+              resetFilter: resetFilter
+            }
+          }}
+      >
+        {children}
+      </TodoContext.Provider>
   );
 };
 

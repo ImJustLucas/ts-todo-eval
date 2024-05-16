@@ -18,11 +18,11 @@ export const TodoList: React.FC = () => {
         <Header />
       </div>
 
-      <div className="my-5 border-b border-slate-200">
-        {tasks.map((task) => (
-            <TodoItem key={task.id} todo={task} />
-        ))}
-      </div>
+        <div className="my-5">
+            {filteredTasks.map((task) => (
+                <TodoItem key={task.id} todo={task} />
+            ))}
+        </div>
     </div>
 
   );
