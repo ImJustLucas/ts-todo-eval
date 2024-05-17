@@ -1,5 +1,5 @@
 import { TodoList } from "./components/TodoList";
-import Search from "./components/search";
+import Search from "./components/Search.tsx";
 import { TodoProvider } from "./contexts/todo.context";
 
 export const App = () => {
@@ -8,7 +8,6 @@ export const App = () => {
   return (
     <TodoProvider>
       <div>
-        <Search />
         <TodoList />
       </div>
     </TodoProvider>

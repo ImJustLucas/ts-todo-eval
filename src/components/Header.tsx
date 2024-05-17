@@ -3,6 +3,7 @@ import { Select, Option } from "@material-tailwind/react";
 import { TodoContext } from "../contexts/todo.context.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmarkCircle} from "@fortawesome/free-solid-svg-icons";
+import Search from "./Search.tsx";
 
 export const Header: React.FC = () => {
     const { filter } = useContext(TodoContext);
@@ -13,8 +14,9 @@ export const Header: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center">
+        <div className="flex flex-col justify-center items-center gap-2">
 
+            <Search />
             <div className="flex items-center justify-end mr-2 relative">
                 <Select variant="outlined" label="Sort by" value={filter.get} onChange={handleChange}>
                     <Option value="priority">Priority</Option>
