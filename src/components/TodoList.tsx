@@ -11,13 +11,8 @@ export const TodoList: React.FC = () => {
   );
 
   return (
-    <div className="max-w-xl p-8 bg-white mt-16 m-auto rounded-xl shadow shadow-slate-300">
-
-      <div className="flex justify-between items-center gap-4">
-        <h1 className="text-3xl font-medium">Tasks list</h1>
-        <Header />
-      </div>
-
+    <div className="max-w-xl p-8 bg-white m-auto rounded-xl shadow shadow-slate-300">
+      <Header />
         <div className="my-5">
             {filteredTasks.map((task) => (
                 <TodoItem key={task.id} todo={task} />
