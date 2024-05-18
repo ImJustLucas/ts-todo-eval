@@ -6,7 +6,7 @@ export const App = () => {
 
   return (
     <TodoProvider>
-      <div className="bg-gray-100 min-h-screen pt-16">
+      <div className="bg-gray-100 min-h-screen py-10">
         <TodoList />
       </div>
     </TodoProvider>

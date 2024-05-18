@@ -1,10 +1,17 @@
-import { ToDoItem } from "../types";
+import {TaskStatus, ToDoItem} from "../types";
 import {Checkbox} from "@material-tailwind/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {useContext} from "react";
+import {TodoContext} from "../contexts/todo.context.tsx";
 
 export const TodoItem: React.FC<{ todo: ToDoItem }> = ({ todo }) => {
+  const { updateTask } = useContext(TodoContext);
+
+  const handleStatusChange = () => {
+    const newStatus = todo.status === TaskStatus.pending ? TaskStatus.inProgress : TaskStatus.pending;
+    updateTask(todo.id, { ...todo, status: newStatus });
+  };
 
   return (
     <div
@@ -19,7 +26,8 @@ export const TodoItem: React.FC<{ todo: ToDoItem }> = ({ todo }) => {
     >
       <div className="inline-flex items-center space-x-2">
         <div>
-          <Checkbox color={todo.priority === "High" ? "pink" : todo.priority === "Medium" ? "blue" : ""} defaultChecked={todo.status === "InProgress"} />
+          <Checkbox color={todo.priority === "High" ? "pink" : todo.priority === "Medium" ? "blue" : "gray"}
+                    defaultChecked={todo.status === "InProgress"} onChange={handleStatusChange} />
         </div>
         <div className={`px-2 ${
             todo.status === "InProgress"
