@@ -25,8 +25,8 @@ export const AddTasksForm: React.FC = () => {
       id: Math.floor(Math.random() * 1000),
       description: taskDescription,
       status: TaskStatus.pending,
-      priority: TaskPriority.Low,
-      dueDate: new Date(),
+      priority: priority,
+      dueDate: date,
     });
     setTaskDescription("");
     setDate(new Date());
