@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToDoItem, TaskPriority, TaskStatus } from "../types";
 import fakeData from "./fakeData";
-import { Log } from "../decorators/log.decorator";
+import { TaskManager } from "./toto.manager";
 
 interface ITodoContext {
   tasks: ToDoItem[];
@@ -13,56 +13,29 @@ interface ITodoContext {
     set: (query: string) => void;
   };
   priority: {
-    get: TaskPriority | '';
-    set: (priority: TaskPriority | '') => void;
+    get: TaskPriority | "";
+    set: (priority: TaskPriority | "") => void;
   };
   status: {
-    get: TaskStatus | '';
-    set: (status: TaskStatus | '') => void;
+    get: TaskStatus | "";
+    set: (status: TaskStatus | "") => void;
+  };
+  showAddTaskModal: {
+    get: boolean;
+    set: (showAddTaskModal: boolean) => void;
   };
 }
 
 const TodoContext = React.createContext<ITodoContext>({} as ITodoContext);
 
-class TaskManager {
-  todos: ToDoItem[];
-  setTodos: React.Dispatch<React.SetStateAction<ToDoItem[]>>;
-
-  constructor(
-    todos: ToDoItem[],
-    setTodos: React.Dispatch<React.SetStateAction<ToDoItem[]>>
-  ) {
-    this.todos = todos;
-    this.setTodos = setTodos;
-
-
-    this.addTask = this.addTask.bind(this);
-    this.removeTask = this.removeTask.bind(this);
-    this.updateTask = this.updateTask.bind(this);
-  }
-
-  @Log
-  addTask<T extends ToDoItem>(todo: T): void {
-    this.setTodos([...this.todos, todo]);
-  }
-
-  @Log
-  removeTask<T extends ToDoItem>(todo: T) {
-    this.setTodos(this.todos.filter((t) => t.id !== todo.id));
-  }
-
-  updateTask = <T extends ToDoItem>(id: number, todo: T) => {
-    this.setTodos(this.todos.map((t) => (t.id === id ? todo : t)));
-  };
-}
-
 const TodoProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
-  const [query, setQuery] = useState<string>('');
-  const [priority, setPriority] = useState<TaskPriority | ''>('');
-  const [status, setStatus] = useState<TaskStatus | ''>('');
+  const [query, setQuery] = useState<string>("");
+  const [priority, setPriority] = useState<TaskPriority | "">("");
+  const [status, setStatus] = useState<TaskStatus | "">("");
+  const [showAddTaskModal, setShowAddTaskModal] = useState<boolean>(false);
 
   const taskManager = new TaskManager(todos, setTodos);
 
@@ -75,16 +48,20 @@ const TodoProvider: React.FC<{
         updateTask: taskManager.updateTask,
         query: {
           get: query,
-          set: setQuery
+          set: setQuery,
         },
         priority: {
           get: priority,
-          set: setPriority
+          set: setPriority,
         },
         status: {
           get: status,
-          set: setStatus
-        }
+          set: setStatus,
+        },
+        showAddTaskModal: {
+          get: showAddTaskModal,
+          set: setShowAddTaskModal,
+        },
       }}
     >
       {children}
