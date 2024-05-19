@@ -7,7 +7,7 @@ import {faXmarkCircle} from "@fortawesome/free-solid-svg-icons";
 export  const Filter: React.FC = () => {
   const { priority, status } = useContext(TodoContext);
   return (
-    <div className="flex items-center justify-end mr-2">
+    <div className="flex items-center justify-end">
 
         <div className="flex items-center justify-end mr-2 relative">
             <Select variant="outlined" label="Priority" value={priority.get} onChange={(e) => priority.set(e as TaskPriority)}>

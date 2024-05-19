@@ -15,7 +15,7 @@ export const Header: React.FC = () => {
         <div className="flex justify-between items-start gap-4">
             <h1 className="text-3xl font-medium">Tasks list</h1>
 
-            <div className="flex flex-col justify-start items-center gap-2 min-h-24">
+            <div className="flex flex-col justify-start items-end gap-2 min-h-24">
                 <div className="flex items-center gap-3">
                     <Button size="sm" variant="outlined" onClick={() => setActiveInput(activeInput === "search" ? null : "search")}>
                         <FontAwesomeIcon className="mr-1.5" icon={faSearch}/>

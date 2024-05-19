@@ -14,7 +14,7 @@ export const TodoList: React.FC = () => {
   });
 
   return (
-    <div className="max-w-xl p-8 bg-white m-auto rounded-xl shadow shadow-slate-300">
+    <div className="max-w-2xl p-8 bg-white m-auto rounded-xl shadow shadow-slate-300">
       <Header />
         <div className="todo-list">
         {filteredTasks.map((todo) => (
