@@ -15,10 +15,12 @@ interface ITodoContext {
   priority: {
     get: TaskPriority | '';
     set: (priority: TaskPriority | '') => void;
+    resetPriority: () => void;
   };
   status: {
     get: TaskStatus | '';
     set: (status: TaskStatus | '') => void;
+    resetStatus: () => void;
   };
 }
 
@@ -79,11 +81,13 @@ const TodoProvider: React.FC<{
         },
         priority: {
           get: priority,
-          set: setPriority
+          set: setPriority,
+          resetPriority: () => setPriority('')
         },
         status: {
           get: status,
-          set: setStatus
+          set: setStatus,
+          resetStatus: () => setStatus('')
         }
       }}
     >
