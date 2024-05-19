@@ -1,32 +1,24 @@
 import React, {useContext} from "react";
-import {Select, Option} from "@material-tailwind/react";
 import { TodoContext } from "../contexts/todo.context.tsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmarkCircle} from "@fortawesome/free-solid-svg-icons";
+import { TaskPriority, TaskStatus } from "../types";
 
-export const Filter: React.FC = () => {
-    const { filter } = useContext(TodoContext);
-
-    const handleChange = (e: string | undefined) => {
-        filter.set(e);
-        console.log(e);
-    };
-
-    return (
-        <div className="flex items-center justify-end mr-2 relative">
-            <Select variant="outlined" label="Sort by" value={filter.get} onChange={handleChange}>
-                <Option value="priority">Priority</Option>
-                <Option value="state">State</Option>
-                <Option value="date">Date</Option>
-            </Select>
-
-            {filter.get !== undefined && (
-                <FontAwesomeIcon
-                    className="text-gray-600 absolute mr-2 bg-white z-20 cursor-pointer transition-all ease-in-out hover:text-gray-400"
-                    icon={faXmarkCircle}
-                    onClick={filter.resetFilter}
-                />
-            )}
-        </div>
-    );
+export  const Filter: React.FC = () => {
+  const { priority, status } = useContext(TodoContext);
+  return (
+    <div className="flex items-center justify-end mr-2 relative">
+      <select value={priority.get} onChange={(e) => priority.set(e.target.value as TaskPriority)}>
+        <option value="">Priorities</option>
+        <option value={TaskPriority.Low}>Low</option>
+        <option value={TaskPriority.Medium}>Medium</option>
+        <option value={TaskPriority.High}>High</option>
+      </select>
+      <select value={status.get} onChange={(e) => status.set(e.target.value as TaskStatus)}>
+        <option value="">Statuses</option>
+        <option value={TaskStatus.pending}>Pending</option>
+        <option value={TaskStatus.inProgress}>In Progress</option>
+        <option value={TaskStatus.done}>Done</option>
+      </select>
+    </div>
+  );
 };
+export default Filter;

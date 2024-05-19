@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToDoItem } from "../types";
+import { ToDoItem, TaskPriority, TaskStatus } from "../types";
 import fakeData from "./fakeData";
 import { Log } from "../decorators/log.decorator";
 
@@ -12,10 +12,13 @@ interface ITodoContext {
     get: string;
     set: (query: string) => void;
   };
-  filter: {
-    get: string | undefined;
-    set: (filter: string | undefined) => void;
-    resetFilter: () => void;
+  priority: {
+    get: TaskPriority | '';
+    set: (priority: TaskPriority | '') => void;
+  };
+  status: {
+    get: TaskStatus | '';
+    set: (status: TaskStatus | '') => void;
   };
 }
 
@@ -32,7 +35,7 @@ class TaskManager {
     this.todos = todos;
     this.setTodos = setTodos;
 
-    // Binding methods to the instance
+
     this.addTask = this.addTask.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.updateTask = this.updateTask.bind(this);
@@ -58,34 +61,34 @@ const TodoProvider: React.FC<{
 }> = ({ children }) => {
   const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
   const [query, setQuery] = useState<string>('');
-  const [filter, setFilter] = useState<string | undefined>(undefined);
+  const [priority, setPriority] = useState<TaskPriority | ''>('');
+  const [status, setStatus] = useState<TaskStatus | ''>('');
 
   const taskManager = new TaskManager(todos, setTodos);
 
-  const resetFilter = () => {
-    setFilter(undefined);
-  };
-
   return (
-      <TodoContext.Provider
-          value={{
-            tasks: taskManager.todos,
-            addTask: taskManager.addTask,
-            removeTask: taskManager.removeTask,
-            updateTask: taskManager.updateTask,
-            query: {
-              get: query,
-              set: setQuery
-            },
-            filter: {
-              get: filter,
-              set: setFilter,
-              resetFilter: resetFilter
-            }
-          }}
-      >
-        {children}
-      </TodoContext.Provider>
+    <TodoContext.Provider
+      value={{
+        tasks: taskManager.todos,
+        addTask: taskManager.addTask,
+        removeTask: taskManager.removeTask,
+        updateTask: taskManager.updateTask,
+        query: {
+          get: query,
+          set: setQuery
+        },
+        priority: {
+          get: priority,
+          set: setPriority
+        },
+        status: {
+          get: status,
+          set: setStatus
+        }
+      }}
+    >
+      {children}
+    </TodoContext.Provider>
   );
 };
 
