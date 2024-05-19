@@ -1,15 +1,12 @@
 import { TodoList } from "./components/TodoList";
-import Search from "./components/search";
 import { TodoProvider } from "./contexts/todo.context";
-import FilterComponent from "./components/FilterComponent"
 
 export const App = () => {
 
+
   return (
     <TodoProvider>
-      <div className="app">
-        <Search />
-        <FilterComponent />
+      <div className="bg-gray-100 min-h-screen py-10">
         <TodoList />
       </div>
     </TodoProvider>
