@@ -11,6 +11,7 @@ export const AddTasksForm: React.FC = () => {
   const [taskDescription, setTaskDescription] = useState<string>("");
   const [date, setDate] = useState<Date>(new Date());
   const [priority, setPriority] = useState<TaskPriority>(TaskPriority.Low);
+  const [error, setError] = useState<boolean>(false);
 
   const handleDateChange = (date: Date | undefined) => {
     if (date) setDate(date);
@@ -21,6 +22,11 @@ export const AddTasksForm: React.FC = () => {
   };
 
   const handleAddTask = () => {
+    if (taskDescription.length === 0) {
+      setError(true);
+      return;
+    }
+
     addTask({
       id: Math.floor(Math.random() * 1000),
       description: taskDescription,
@@ -32,6 +38,7 @@ export const AddTasksForm: React.FC = () => {
     setDate(new Date());
     setPriority(TaskPriority.Low);
     showAddTaskModal.set(false);
+    setError(false);
   };
 
   return (
@@ -60,6 +67,11 @@ export const AddTasksForm: React.FC = () => {
           ]}
         />
       </div>
+      {error && (
+        <div className="flex items-center w-full justify-start p-4 text-xs font-sans text-red-500">
+          Please fill in the task description
+        </div>
+      )}
       <div className="flex w-full flex-wrap items-center justify-between shrink-0 text-blue-gray-500">
         <button
           onClick={() => showAddTaskModal.set(false)}

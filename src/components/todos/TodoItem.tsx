@@ -64,7 +64,18 @@ export const TodoItem: React.FC<{ todo: ToDoItem }> = ({ todo }) => {
             todo.status === TaskStatus.done ? `line-through text-gray-400` : ""
           }`}
         >
-          {todo.description || "oueee"}
+          {todo.description}{" "}
+          {todo.dueDate && (
+            <span className="text-xs text-gray-400">
+              {" "}
+              - Due date:{" "}
+              {new Date(todo.dueDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-2">

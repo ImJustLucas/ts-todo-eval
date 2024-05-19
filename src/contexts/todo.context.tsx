@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ToDoItem, TaskPriority, TaskStatus } from "../types";
-import fakeData from "./fakeData";
 import { TaskManager } from "./toto.manager";
 
 interface ITodoContext {
@@ -15,10 +14,12 @@ interface ITodoContext {
   priority: {
     get: TaskPriority | "";
     set: (priority: TaskPriority | "") => void;
+    resetPriority: () => void;
   };
   status: {
     get: TaskStatus | "";
     set: (status: TaskStatus | "") => void;
+    resetStatus: () => void;
   };
   showAddTaskModal: {
     get: boolean;
@@ -31,7 +32,7 @@ const TodoContext = React.createContext<ITodoContext>({} as ITodoContext);
 const TodoProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
+  const [todos, setTodos] = useState<ToDoItem[]>([]);
   const [query, setQuery] = useState<string>("");
   const [priority, setPriority] = useState<TaskPriority | "">("");
   const [status, setStatus] = useState<TaskStatus | "">("");
@@ -53,10 +54,12 @@ const TodoProvider: React.FC<{
         priority: {
           get: priority,
           set: setPriority,
+          resetPriority: () => setPriority(""),
         },
         status: {
           get: status,
           set: setStatus,
+          resetStatus: () => setStatus(""),
         },
         showAddTaskModal: {
           get: showAddTaskModal,
