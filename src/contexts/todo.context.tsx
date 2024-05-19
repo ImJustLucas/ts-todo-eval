@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ToDoItem } from "../types";
+import { ToDoItem, TaskPriority, TaskStatus } from "../types";
 import fakeData from "./fakeData";
 import { Log } from "../decorators/log.decorator";
 
@@ -11,7 +11,15 @@ interface ITodoContext {
   query: {
     get: string;
     set: (query: string) => void;
-  }
+  };
+  priority: {
+    get: TaskPriority | '';
+    set: (priority: TaskPriority | '') => void;
+  };
+  status: {
+    get: TaskStatus | '';
+    set: (status: TaskStatus | '') => void;
+  };
 }
 
 const TodoContext = React.createContext<ITodoContext>({} as ITodoContext);
@@ -27,7 +35,7 @@ class TaskManager {
     this.todos = todos;
     this.setTodos = setTodos;
 
-    // Binding methods to the instance
+
     this.addTask = this.addTask.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.updateTask = this.updateTask.bind(this);
@@ -53,7 +61,8 @@ const TodoProvider: React.FC<{
 }> = ({ children }) => {
   const [todos, setTodos] = useState<ToDoItem[]>(fakeData);
   const [query, setQuery] = useState<string>('');
-
+  const [priority, setPriority] = useState<TaskPriority | ''>('');
+  const [status, setStatus] = useState<TaskStatus | ''>('');
 
   const taskManager = new TaskManager(todos, setTodos);
 
@@ -67,6 +76,14 @@ const TodoProvider: React.FC<{
         query: {
           get: query,
           set: setQuery
+        },
+        priority: {
+          get: priority,
+          set: setPriority
+        },
+        status: {
+          get: status,
+          set: setStatus
         }
       }}
     >
